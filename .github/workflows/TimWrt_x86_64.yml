@@ -510,7 +510,7 @@ jobs:
          sed -i "/exit/iuci set network.lan.gateway=\'192.168.50.1\'\nuci set network.lan.dns=\'114.114.114.114 119.29.29.29 223.5.5.5\'\nuci commit network\nuci set dhcp.lan.ignore=\'1\'\nuci commit dhcp\n" package/lean/default-settings/files/zzz-default-settings
         
         # 更改nlbwmon netlink uffer size
-         sed -i "/exit/iuci set nlbwmon.@nlbwmon[0].netlink_buffer_size=\'10485760\'\nuci set nlbwmon.@nlbwmon[0].commit_interval=\'1h\'\nuci commit nlbwmon\n" package/lean/default-settings/files/zzz-default-settings
+        # sed -i "/exit/iuci set nlbwmon.@nlbwmon[0].netlink_buffer_size=\'10485760\'\nuci set nlbwmon.@nlbwmon[0].commit_interval=\'1h\'\nuci commit nlbwmon\n" package/lean/default-settings/files/zzz-default-settings
         
         # 默认语言为英语
          sed -i "/exit/ised -i \"s/'zh_cn'/'en'/g\" /etc/config/luci\n" package/base-files/files/etc/rc.local
