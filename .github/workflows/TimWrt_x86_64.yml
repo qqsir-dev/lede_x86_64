@@ -61,7 +61,7 @@ jobs:
        rm -rf lean/luci-app-jd-dailybonus
        mkdir openwrt-packages
        cd openwrt-packages
-       # git clone https://github.com/longcat99/long.git
+       # git clone https://github.com/longcat99/long.git 包含了一些主题
        # git clone -b hello https://github.com/DHDAXCW/openwrt-passwall
        # git clone https://github.com/xiaorouji/openwrt-passwall
        # sed -i 's/ upx\/host//g' openwrt-passwall/v2ray-plugin/Makefile
@@ -73,7 +73,7 @@ jobs:
        # git clone https://github.com/longcat99/OpenClash.git
        # git clone https://github.com/vernesong/OpenClash.git
        # git clone https://github.com/frainzy1477/luci-app-clash.git
-       # git clone --depth 1 -b oaf-3.0.1 https://github.com/destan19/OpenAppFilter.git
+       # git clone --depth 1 -b oaf-3.0.1 https://github.com/destan19/OpenAppFilter.git 应用过滤APP
        # git clone https://github.com/jerrykuku/luci-app-ttnode.git
        # git clone https://github.com/linkease/ddnsto-openwrt.git
        # git clone https://github.com/jerrykuku/luci-app-vssr.git
