@@ -96,8 +96,8 @@ jobs:
        # svn co https://github.com/Lienol/openwrt/trunk/package/network/fullconenat && rm -f fullconenat/patches/000-printk.patch        
        # git clone --depth 1 -b LUCI-LUA-UCITRACK https://github.com/CCnut/feed-netkeeper && mv -n feed-netkeeper/* ./ ; rm -Rf feed-netkeeper
        # git clone https://github.com/immortalwrt/openwrt-gowebdav.git
-       # git clone --depth 1 -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git
-       git clone --depth 1 -b 18.06 https://github.com/qqsir-dev/luci-theme-argon.git
+       git clone --depth 1 -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git
+       # git clone --depth 1 -b 18.06 https://github.com/qqsir-dev/luci-theme-argon.git
        git clone https://github.com/jerrykuku/luci-app-argon-config.git
        # git clone https://github.com/garypang13/luci-app-eqos.git && mv luci-app-eqos/po/zh_Hans luci-app-eqos/po/zh-cn
        # git clone https://github.com/tty228/luci-app-serverchan.git
