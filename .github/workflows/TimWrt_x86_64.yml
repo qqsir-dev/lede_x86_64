@@ -510,7 +510,7 @@ jobs:
         find package/*/ feeds/*/ -maxdepth 5 -path "*luci-app-pppoe-server/luasrc/controller/pppoe-server.lua" | xargs -i sed -i 's/\"PPPoE Server\")\, 3/\"PPPoE Server\")\, 5/g' {}
         
         # 写自己的网络配置
-         sed -i "/exit/iuci set network.lan.gateway=\'192.168.50.1\'\nuci set network.lan.dns=\'114.114.114.114 119.29.29.29 223.5.5.5\'\nuci commit network\nuci set dhcp.lan.ignore=\'1\'\nuci commit dhcp\n" package/lean/default-settings/files/zzz-default-settings
+         sed -i "/exit/iuci set network.lan.gateway=\'192.168.50.1\'\nuci set network.lan.dns=\'119.29.29.29 223.5.5.5\'\nuci commit network\nuci set dhcp.lan.ignore=\'1\'\nuci commit dhcp\n" package/lean/default-settings/files/zzz-default-settings
         
         # 更改nlbwmon netlink uffer size
          sed -i '1s/$/&\nnet.core.wmem_max=16777216\nnet.core.rmem_max=16777216/' package/base-files/files/etc/sysctl.conf
