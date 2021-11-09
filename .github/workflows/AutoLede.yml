@@ -63,8 +63,8 @@ jobs:
     - name: Update Feeds
       id: update
       run: |
-        cd $OPENWRTROOT
-        ./scripts/feeds update -a
+        cd openwrt
+        ../scripts/feeds update -a
 # #       cd openwrt
 # #       echo "OPENWRTROOT=$PWD" >> $GITHUB_ENV
 # #       echo "::set-output name=OPENWRTROOT::$(echo $PWD)"
