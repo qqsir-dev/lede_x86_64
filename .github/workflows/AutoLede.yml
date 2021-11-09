@@ -1,4 +1,4 @@
-name: x86-x64-TimWRT
+name: TimWrt-x86-x64-Auto
 
 on:
   repository_dispatch:
