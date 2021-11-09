@@ -63,14 +63,17 @@ jobs:
     - name: Update Feeds
       id: update
       run: |
-        cd openwrt
-        echo "OPENWRTROOT=$PWD" >> $GITHUB_ENV
-        echo "::set-output name=OPENWRTROOT::$(echo $PWD)"
-        mkdir customfeeds
-        git clone --depth=1 https://github.com/coolsnowwolf/packages customfeeds/packages
-        git clone --depth=1 https://github.com/coolsnowwolf/luci customfeeds/luci
-        chmod +x ../scripts/*.sh
+        cd $OPENWRTROOT
         ./scripts/feeds update -a
+# #       cd openwrt
+# #       echo "OPENWRTROOT=$PWD" >> $GITHUB_ENV
+# #       echo "::set-output name=OPENWRTROOT::$(echo $PWD)"
+# #       mkdir customfeeds
+#  #      git clone --depth=1 https://github.com/coolsnowwolf/packages customfeeds/packages
+#  #      git clone --depth=1 https://github.com/coolsnowwolf/luci customfeeds/luci
+#  #      chmod +x ../scripts/*.sh
+        
+        
     #    ../scripts/hook-feeds.sh
     # - name: MOD index file
     #   run: |
@@ -86,10 +89,11 @@ jobs:
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE $OPENWRTROOT/.config
         chmod +x scripts/*.sh
         cd $OPENWRTROOT
-        ../$DIY_SH
+        make defconfig
+    #    ../$DIY_SH
     #      ../scripts/preset-clash-core.sh amd64
     #      ../scripts/preset-terminal-tools.sh
-        make defconfig
+        
     - name: Download Package
       id: package
       run: |
@@ -143,6 +147,10 @@ jobs:
         cp ../scripts/init-settings.sh files/etc/uci-defaults/99-init-settings
         mkdir -p files/etc/opkg
         cp ../configs/opkg/distfeeds-packages-server.conf files/etc/opkg/distfeeds.conf.server
+         make package/install -j$(nproc) || make package/install -j1 V=s
+        make target/install -j$(nproc) || make target/install -j1 V=s
+        make checksum
+        echo "::set-output name=GENERATE_STATUS::success"
 #        if "$KMODS_IN_FIRMWARE" = 'true'
 #        then
 #            mkdir -p files/www/snapshots
@@ -151,8 +159,8 @@ jobs:
 #        else
 #            cp ../configs/opkg/distfeeds-18.06-remote.conf files/etc/opkg/distfeeds.conf
 #        fi
-        cp files/etc/opkg/distfeeds.conf.server files/etc/opkg/distfeeds.conf.mirror
-        sed -i "s/http:\/\/192.168.123.100:2345\/snapshots/https:\/\/openwrt.cc\/snapshots\/$(date +"%Y-%m-%d")\/lean/g" files/etc/opkg/distfeeds.conf.mirror
+#        cp files/etc/opkg/distfeeds.conf.server files/etc/opkg/distfeeds.conf.mirror
+#        sed -i "s/http:\/\/192.168.123.100:2345\/snapshots/https:\/\/openwrt.cc\/snapshots\/$(date +"%Y-%m-%d")\/lean/g" files/etc/opkg/distfeeds.conf.mirror
 #        if "$IPV6MOD_IN_FIRMWARE" = 'true'
 #        then
 #            mkdir -p files/www/ipv6-modules
@@ -162,10 +170,7 @@ jobs:
 #            mkdir -p files/bin
 #            cp ../scripts/ipv6-helper.sh files/bin/ipv6-helper
 #        fi
-        make package/install -j$(nproc) || make package/install -j1 V=s
-        make target/install -j$(nproc) || make target/install -j1 V=s
-        make checksum
-        echo "::set-output name=GENERATE_STATUS::success"
+       
     - name: Upload Bin Folder
       uses: actions/upload-artifact@main
       if: steps.generate.outputs.GENERATE_STATUS == 'success'
