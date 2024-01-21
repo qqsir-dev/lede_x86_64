@@ -33,9 +33,13 @@ define Package/uqmi/description
 endef
 
 TARGET_CFLAGS += \
-	-I$(STAGING_DIR)/usr/include \
-	-Wno-error=dangling-pointer \
-	-Wno-error=maybe-uninitialized
+	-I$(STAGING_DIR)/usr/include -ffunction-sections -fdata-sections
+
+TARGET_LDFLAGS += -Wl,--gc-sections
+ifneq (
+(GCC_MAJOR_VERSION),12 13),)
+TARGET_CFLAGS += -Wno-error=dangling-pointer -Wno-error=maybe-uninitialized
+endif
 
 CMAKE_OPTIONS += \
 	-DDEBUG=1
