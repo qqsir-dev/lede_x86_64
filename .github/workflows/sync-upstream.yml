@@ -1,0 +1,57 @@
+name: Sync fork with upstream (keep workflow)
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout fork (master)
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      # ✅ 稳：按文件名备份当前 workflow 文件
+      - name: Backup this workflow file
+        run: |
+          mkdir -p /tmp/workflow
+          cp .github/workflows/sync-upstream.yml /tmp/workflow/sync-upstream.yml
+
+      - name: Fetch upstream
+        run: |
+          git remote add upstream https://github.com/coolsnowwolf/lede.git || true
+          git fetch upstream --prune
+
+      - name: Hard reset to upstream/master
+        run: |
+          git checkout master
+          git reset --hard upstream/master
+
+      - name: Restore workflow file
+        run: |
+          mkdir -p .github/workflows
+          cp /tmp/workflow/sync-upstream.yml .github/workflows/sync-upstream.yml
+
+      - name: Commit workflow restore if changed
+        run: |
+          git add .github/workflows/sync-upstream.yml
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: keep fork sync workflow"
+          fi
+
+      - name: Push
+        run: |
+          git push origin master --force
